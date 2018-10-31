@@ -10,9 +10,70 @@ namespace Ch12_P5_LinqUsingEnumerable
     {
         static void Main(string[] args)
         {
-            QueryStringsWithEnumerableAndLambdas();
-
+            //QueryStringWithOperators();
+            //QueryStringsWithEnumerableAndLambdas();
+            //QueryStringsWithEnumerableAndLambdas2();
+            //QueryStringsWithAnonymousMethods();
+            //QueryStringsWithRawDelegates();
             Console.ReadLine();
+        }
+
+        private static void QueryStringsWithRawDelegates()
+        {
+            Console.WriteLine("***** Using Raw Delegates *****");
+            string[] currentVideoGames = {"Morrowind", "Uncharted 2", "Fallout 3", "Daxter",
+                                                                            "System Shock 2"};
+            // Build the necessary Func<> delegates.
+            Func<string, bool> searchFilter = new Func<string, bool>(Filter);
+            Func<string, string> itemToProcess = new Func<string, string>(ProcessItem);
+            // Pass the delegates into the methods of Enumerable.
+            var subset = currentVideoGames.Where(searchFilter).OrderBy(itemToProcess).
+            Select(itemToProcess);
+            // Print out the results.
+            foreach (var game in subset)
+                Console.WriteLine("Item: {0}", game);
+            Console.WriteLine();
+        }
+
+        private static bool Filter(string game)
+        {
+            return game.Contains(" ");
+        }
+        public static string ProcessItem(string game)
+        {
+            return game;
+        }
+        static void QueryStringsWithAnonymousMethods()
+        {
+            Console.WriteLine("***** Using Anonymous Methods *****");
+            string[] currentVideoGames = {"Morrowind", "Uncharted 2", "Fallout 3", "Daxter",
+                                                                                "System Shock 2"};
+            // Build the necessary Func<> delegates using anonymous methods.
+            Func<string, bool> searchCriteria = delegate (string game) { return game.Contains(" "); };
+            Func<string, string> itemToProcess = delegate (string s) { return s; };
+            // Pass the delegates into the methods of Enumerable.
+            var subset = currentVideoGames.Where(searchCriteria).OrderBy(itemToProcess).
+            Select(itemToProcess);
+            // Print out the results.
+            foreach (var game in subset)
+                Console.WriteLine("Item: {0}", game);
+            Console.WriteLine();
+        }
+
+        static void QueryStringsWithEnumerableAndLambdas2()
+        {
+            Console.WriteLine("***** Using Enumerable / Lambda Expressions *****");
+            string[] currentVideoGames = {"Morrowind", "Uncharted 2", "Fallout 3",
+                                                        "Daxter", "System Shock 2"};
+            // Break it down!
+            var gamesWithSpaces = currentVideoGames.Where(game => game.Contains(" "));
+            var orderedGames = gamesWithSpaces.OrderBy(game => game);
+            var subset = orderedGames.Select(game => game);
+
+            foreach (var game in subset)
+                Console.WriteLine("Item: {0}", game);
+
+            Console.WriteLine();
         }
 
         private static void QueryStringsWithEnumerableAndLambdas()
@@ -29,12 +90,6 @@ namespace Ch12_P5_LinqUsingEnumerable
             foreach (var game in subset)
                 Console.WriteLine("Item: {0}", game);
             Console.WriteLine();
-
-            // working with Where method.
-
-            //Func<string, int> func = currentVideoGames.Contains(" ");
-
-            //var resultSet = currentVideoGames.Where()
 
         }
 
