@@ -32,8 +32,9 @@ namespace Ch12_P5_LinqUsingEnumerable
 
             // working with Where method.
 
-            Func<string, int> func = currentVideoGames.Contains(" ");
-            var resultSet = currentVideoGames.Where()
+            //Func<string, int> func = currentVideoGames.Contains(" ");
+
+            //var resultSet = currentVideoGames.Where()
 
         }
 
